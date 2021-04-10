@@ -17,7 +17,7 @@ function setup() {
   
   
 
-  foodStock = database.ref('food');
+  foodStock = database.ref('Food');
   foodStock.on("value",readstock);
   
   
@@ -27,9 +27,9 @@ function setup() {
 function draw() {  
   background(46,139,87)
 
-  if(keyWentDown(UP_ARROW)){
+  if(keyDown(UP_ARROW)){
     writeStock(foodS);
-    food = food-1 ;
+    
     dog1.addImage(happyDog);
     
   }
@@ -38,7 +38,7 @@ function draw() {
   textSize(20);
   fill("red")
   stroke(5)
-  text("Number of milk bottles left :    " + foodStock,100,100);
+  text("Number of milk bottles left :    " + foodS,100,100);
   text("note:press UP_ARROW key to feed milk to the dog",0,700);
 
 }
@@ -49,9 +49,14 @@ function readstock (data){
 
 //function to write values in DB
 function writeStock(x){
-    database.ref('Food').update({
-    
-    foodStock:x
-
+ 
+  if(x<=0){
+    x = 0;
+  }
+    else {
+      x = x-1 ;
+    }
+    database.ref("/").update({
+     Food :x 
     })
 }
